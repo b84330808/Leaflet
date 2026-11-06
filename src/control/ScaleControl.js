@@ -143,7 +143,7 @@ export class ScaleControl extends Control {
 
 	/** @param {number} num */
 	_getRoundNum(num) {
-		const pow10 = 10 ** ((`${Math.floor(num)}`).length - 1);
+		const pow10 = 10 ** Math.floor(Math.log10(num));
 		let d = num / pow10;
 
 		d = d >= 10 ? 10 :
@@ -151,6 +151,7 @@ export class ScaleControl extends Control {
 			d >= 3 ? 3 :
 			d >= 2 ? 2 : 1;
 
-		return pow10 * d;
+		// one significant digit, as 3 * 0.1 is 0.30000000000000004
+		return +(pow10 * d).toPrecision(1);
 	}
 }
